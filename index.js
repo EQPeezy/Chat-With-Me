@@ -10,16 +10,20 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+var d = new Date();
+
 io.on("connection", function(socket) {
   console.log("A user has joined the chat!");
-  io.emit('message', "User has joined");
+  d = new Date();
+  io.emit('message', "User has joined " + d);
+  console.log(d);
   socket.on('message', function(msg) {
     console.log("Message: " + msg);
     io.emit('message', msg);
   });
   socket.on("disconnect", function() {
-    console.log("A user has left the chat");
-    io.emit('message', "A user has left the chat")
+    console.log("A user has left the chat" + d);    
+    io.emit('message', "A user has left the chat " + d);
   });
 });
 
